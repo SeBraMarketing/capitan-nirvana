@@ -1,0 +1,26 @@
+# Secretos — NUNCA versionar
+.env
+.env.local
+*.key
+*.pem
+
+# Datos con PII (dumps de clientes/pedidos/conversaciones reales)
+customers.json
+customers-current.json
+conversations.json
+conversations-current.json
+orders.json
+orders-current.json
+customer_addresses.json
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/

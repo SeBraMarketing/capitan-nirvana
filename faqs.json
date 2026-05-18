@@ -1,0 +1,202 @@
+[
+  {
+    "question": "¿Cuál es el horario de domicilios?",
+    "answer": "🎸 Nuestros domicilios:\n\n*Lunes:* Cerrado\n*Mar–Jue:* 4:00pm a 9:30pm (último pedido)\n*Vie–Dom:* 4:00pm a 10:30pm (último pedido)\n\nFuera de ese horario el bot no toma pedidos.",
+    "keywords": "horario,horarios,abren,cierran,a que hora,hasta que hora,desde que hora,atienden",
+    "category": "Horarios y ubicación",
+    "priority": 10,
+    "is_active": true
+  },
+  {
+    "question": "¿Dónde están ubicados?",
+    "answer": "📍 Estamos en C.C. Galerías Súper Éxito, Local 215, Pasto - Nariño. Pero ojo: solo manejamos domicilios. Aún no tenemos servicio en mesa por este canal.",
+    "keywords": "ubicacion,ubicados,direccion,dirección,donde estan,donde están,donde queda,como llegar,sede,sedes,local",
+    "category": "Horarios y ubicación",
+    "priority": 9,
+    "is_active": true
+  },
+  {
+    "question": "¿Cuánto cobran por el domicilio?",
+    "answer": "🛵 La tarifa depende del barrio. Cobramos desde $3.500 (zona Galerías) hasta $12.000 (zonas alejadas como Catambuco). Cuéntame en qué barrio estás y te confirmo al toque.",
+    "keywords": "domicilio,delivery,tarifa,cuanto cobran,costo del domicilio,envio,transporte",
+    "category": "Domicilio",
+    "priority": 10,
+    "is_active": true
+  },
+  {
+    "question": "¿Cuánto demora el domicilio?",
+    "answer": "⏱️ Entre 15 y 45 minutos según tu zona y la carga del momento. Te doy el ETA exacto al confirmar tu pedido.",
+    "keywords": "cuanto demora,cuanto tarda,tiempo,demora,llega,cuando llega,cuanto se demora",
+    "category": "Domicilio",
+    "priority": 9,
+    "is_active": true
+  },
+  {
+    "question": "¿Hasta dónde llegan?",
+    "answer": "🗺️ Cubrimos todo Pasto urbano: Galerías, Pandiaco, Torobajo, Centro, Av. de los Estudiantes, Tamasagra, Briceño, La Colina, Aranda, El Tejar y Catambuco. Si tu zona no aparece, escribela y la confirmamos con coordinación.",
+    "keywords": "zonas,cobertura,donde llegan,hasta donde,llegan a,reparten,domiciliarios,a donde",
+    "category": "Domicilio",
+    "priority": 8,
+    "is_active": true
+  },
+  {
+    "question": "¿Cuál es el pedido mínimo para domicilio?",
+    "answer": "Sin pedido mínimo. Pide lo que quieras y te lo llevamos 🤘",
+    "keywords": "pedido minimo,minimo,monto minimo,valor minimo,cuanto minimo",
+    "category": "Domicilio",
+    "priority": 7,
+    "is_active": true
+  },
+  {
+    "question": "¿Qué métodos de pago aceptan?",
+    "answer": "💸 Aceptamos *Nequi*, *Daviplata*, *transferencia Bancolombia* y *efectivo contra entrega*. Los pagos digitales requieren captura del comprobante para verificar antes de despachar.",
+    "keywords": "pago,pagos,metodos,metodos de pago,como pago,formas de pago,nequi,daviplata,bancolombia,efectivo,tarjeta,transferencia",
+    "category": "Pagos",
+    "priority": 10,
+    "is_active": true
+  },
+  {
+    "question": "¿Aceptan tarjeta de crédito o débito?",
+    "answer": "Por ahora no procesamos pagos con tarjeta a domicilio, pero sí aceptamos *transferencia Bancolombia*, *Nequi*, *Daviplata* y *efectivo*. Pronto sumamos pasarela con tarjeta.",
+    "keywords": "tarjeta,credito,debito,visa,mastercard,datafono,pse",
+    "category": "Pagos",
+    "priority": 7,
+    "is_active": true
+  },
+  {
+    "question": "¿Cómo verifican el pago?",
+    "answer": "Para Nequi/Daviplata/Bancolombia, mándame la captura de pantalla del comprobante. Verifico monto y destinatario en segundos y suelto el pedido a cocina. Para efectivo no hay verificación previa, pago contra entrega.",
+    "keywords": "verificar,verificacion,comprobante,captura,screenshot,pantallazo,como pagar,paga primero",
+    "category": "Pagos",
+    "priority": 9,
+    "is_active": true
+  },
+  {
+    "question": "¿Tienen opciones vegetarianas o veganas?",
+    "answer": "🌱 Sí. Tostón Vegano o Vegetariano, Pasta Vegetariana, Sandwich Vegetariano, ensaladas y varias adiciones. ¿Quieres que te recomiende algo?",
+    "keywords": "vegetariano,vegana,vegano,vegetariana,sin carne,sin animal,carne free,plant based",
+    "category": "Menú",
+    "priority": 8,
+    "is_active": true
+  },
+  {
+    "question": "¿Tienen opciones sin gluten?",
+    "answer": "🌾 No tenemos cocina certificada sin gluten, pero varios ítems no llevan trigo. Cuéntame tu restricción y te oriento con lo más seguro.",
+    "keywords": "sin gluten,gluten free,celiaco,celiaca,trigo,harina,sin trigo",
+    "category": "Menú",
+    "priority": 6,
+    "is_active": true
+  },
+  {
+    "question": "¿Qué hay para niños?",
+    "answer": "👶 La *Cajita Rockera* ($29.500) es nuestro combo infantil: hamburguesa, crispetas, perro caliente o salchipapas, jugo Hit, vaso de helado, papitas y un botón rockero coleccionable. ¿La quieres?",
+    "keywords": "niños,niño,niña,niñas,infantil,infantiles,kids,cajita,combo niños,para mi hijo,para mi hija",
+    "category": "Menú",
+    "priority": 8,
+    "is_active": true
+  },
+  {
+    "question": "¿Tienen postres?",
+    "answer": "Por ahora no manejamos postres por separado a domicilio. La *Cajita Rockera* incluye un vaso de helado. Pronto sumamos más opciones dulces.",
+    "keywords": "postre,postres,dulce,dulces,helado,torta,brownie,cheesecake",
+    "category": "Menú",
+    "priority": 5,
+    "is_active": true
+  },
+  {
+    "question": "¿Tienen cervezas y bebidas alcohólicas?",
+    "answer": "🍺 Sí. Cerveza Club Colombia ($4.900) y Cerveza Poker ($4.500). Recuerda que solo vendemos a mayores de edad y debes tener cédula a la mano para verificar al recibir.",
+    "keywords": "cerveza,cervezas,licor,licores,alcohol,trago,tragos,bebida alcoholica,club,poker,corona,heineken",
+    "category": "Menú",
+    "priority": 7,
+    "is_active": true
+  },
+  {
+    "question": "¿Puedo modificar o quitar ingredientes?",
+    "answer": "Sí, en muchos platos. Por ejemplo: 'Sin Cebolla', 'Sin Tomate', 'Salsa Aparte', etc. Las modificaciones son gratis. Algunos productos vienen listos de fábrica y no se pueden alterar (cervezas, gaseosas en botella, etc).",
+    "keywords": "modificar,quitar,sin,cambiar,personalizar,sin cebolla,sin tomate,salsa aparte,puedo cambiar",
+    "category": "Menú",
+    "priority": 7,
+    "is_active": true
+  },
+  {
+    "question": "¿Puedo agregar adiciones extras?",
+    "answer": "🧀 Claro. Tenemos adiciones de salsas, proteínas extras, queso, papas, arepas, jalapeños y más. Cada adición tiene su precio. Cuando me digas tu plato, te ofrezco las adiciones que aplican.",
+    "keywords": "adicion,adiciones,extra,extras,agregar,sumar,doble,mas queso,mas carne,porcion extra,toppings",
+    "category": "Menú",
+    "priority": 7,
+    "is_active": true
+  },
+  {
+    "question": "¿Cómo cancelo un pedido?",
+    "answer": "🎸 Puedes cancelar dentro de los primeros *10 minutos* después de confirmado, antes de que cocina lo prepare. Solo dime 'cancelar' y la razón. Después de ese tiempo, el pedido sigue en proceso.",
+    "keywords": "cancelar,cancelacion,anular,desistir,no quiero,cambiar de opinion",
+    "category": "Cancelaciones",
+    "priority": 8,
+    "is_active": true
+  },
+  {
+    "question": "¿Hacen reservas para el local?",
+    "answer": "Por aquí no manejamos reservas todavía. Para temas de salón llama directo al *7238612* y te atienden en sitio.",
+    "keywords": "reserva,reservar,reservacion,mesa,mesas,salon,grupo grande,evento,celebrar",
+    "category": "Servicio",
+    "priority": 6,
+    "is_active": true
+  },
+  {
+    "question": "¿Aceptan eventos privados o cumpleaños?",
+    "answer": "🎂 Para eventos, cumpleaños o catering grupal, llama al *7238612*. Coordinación arma planes especiales con menú a la medida.",
+    "keywords": "evento,eventos,cumpleaños,cumple,fiesta,catering,grupo,reunion,planes especiales,corporativo",
+    "category": "Servicio",
+    "priority": 6,
+    "is_active": true
+  },
+  {
+    "question": "¿Tienen happy hour o promociones?",
+    "answer": "🤘 Las promos las publicamos en nuestras redes. Síguenos en *@capitannirvanaoficial* (Instagram) y *@capitannirvanapasto* (Facebook). Si hay promo activa, te la cuento.",
+    "keywords": "promocion,promociones,promo,happy hour,descuento,oferta,2x1,combo,rebaja",
+    "category": "Servicio",
+    "priority": 5,
+    "is_active": true
+  },
+  {
+    "question": "¿El precio de la carta es el mismo en domicilio?",
+    "answer": "Estos precios son únicamente para domicilios. La carta del local puede tener valores distintos.",
+    "keywords": "precio,precios,mismo precio,carta,valor,cuanto cuesta,cuanto vale,sale mas caro,mas caro",
+    "category": "Domicilio",
+    "priority": 6,
+    "is_active": true
+  },
+  {
+    "question": "¿Puedo programar el pedido para más tarde?",
+    "answer": "⏰ Sí. Dime tu hora de entrega deseada y lo programamos. Solo asegúrate que sea dentro de nuestro horario de operación.",
+    "keywords": "programar,agendar,para mas tarde,para las,a las,en la tarde,en la noche,reserva pedido,mañana",
+    "category": "Domicilio",
+    "priority": 6,
+    "is_active": true
+  },
+  {
+    "question": "¿Quién es Capitán Nirvana?",
+    "answer": "🎸 Desde junio de 2006, Capitán Nirvana llegó a Pasto a ser ese ambiente nocturno con alma de rock. Hoy fusionamos buena cocina con el mejor rock and roll. *Aliméntate con Rock and Roll*. 🤘",
+    "keywords": "quien es,quien son,historia,cuanto llevan,desde cuando,sobre ustedes,acerca,about,fundadores,filosofia",
+    "category": "Servicio",
+    "priority": 4,
+    "is_active": true
+  },
+  {
+    "question": "¿Tienen redes sociales?",
+    "answer": "📱 Síguenos en Instagram *@capitannirvanaoficial* y Facebook *@capitannirvanapasto*. Ahí publicamos promos, eventos, fotos y la energía rockera.",
+    "keywords": "redes,instagram,facebook,tiktok,social,siguenos,seguir,arroba,@,instagram capitan,fb",
+    "category": "Servicio",
+    "priority": 4,
+    "is_active": true
+  },
+  {
+    "question": "¿Tienen factura electrónica?",
+    "answer": "🧾 Sí. Para factura con datos fiscales, dime al hacer el pedido: nombre/razón social, NIT/cédula, correo y dirección. Coordinación la genera y te llega al correo.",
+    "keywords": "factura,facturar,factura electronica,nit,fiscal,empresa,rut,dian,recibo",
+    "category": "Pagos",
+    "priority": 5,
+    "is_active": true
+  }
+]

@@ -1,0 +1,3 @@
+# Cron del contenedor restic — formato BusyBox crond
+# Backup diario a las 03:00 UTC (Colombia UTC-5 → 22:00 hora local del día anterior)
+0 3 * * * /usr/local/bin/restic-backup.sh >> /var/log/restic-backup.log 2>&1

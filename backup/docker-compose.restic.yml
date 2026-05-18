@@ -1,0 +1,56 @@
+# docker-compose.restic.yml — Servicio de backup para deploy en EasyPanel
+#
+# Deploy:
+#   1. Subir a EasyPanel como nuevo servicio "App" → "Docker Compose"
+#   2. Configurar todas las env vars (ver .env.example)
+#   3. Mapear volúmenes read-only de NocoDB y n8n al contenedor restic
+#   4. El cron interno corre el backup diario a las 03:00 UTC
+#
+# IMPORTANTE: los nombres de volúmenes externos deben coincidir con los reales
+# en el host EasyPanel. Verificar con: docker volume ls | grep -E 'nocodb|n8n'
+
+version: "3.8"
+
+services:
+  restic:
+    # Imagen oficial restic + alpine para añadir cron, postgresql-client, curl
+    image: alpine:3.19
+    container_name: cn-restic-backup
+    restart: unless-stopped
+    environment:
+      RESTIC_REPOSITORY: ${RESTIC_REPOSITORY}
+      RESTIC_PASSWORD: ${RESTIC_PASSWORD}
+      POSTGRES_HOST: ${POSTGRES_HOST:-}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-}
+      POSTGRES_DB_NOCODB: ${POSTGRES_DB_NOCODB:-}
+      POSTGRES_DB_N8N: ${POSTGRES_DB_N8N:-}
+      HEALTHCHECK_URL: ${HEALTHCHECK_URL:-}
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN:-}
+      TELEGRAM_CHAT_ID: ${TELEGRAM_CHAT_ID:-}
+      # Para SFTP a Hetzner Storage Box
+      RESTIC_SFTP_COMMAND: "ssh -i /root/.ssh/id_rsa -o StrictHostKeyChecking=accept-new"
+    volumes:
+      # Read-only mounts de los datos a respaldar
+      - nocodb_data:/mnt/nocodb-data:ro
+      - n8n_data:/mnt/n8n-data:ro
+      # Script y SSH key para Storage Box
+      - ./restic-backup.sh:/usr/local/bin/restic-backup.sh:ro
+      - ./crontab:/etc/crontabs/root:ro
+      - ./ssh:/root/.ssh:ro
+    command: >
+      sh -c "
+      apk add --no-cache restic postgresql-client curl openssh-client &&
+      chmod +x /usr/local/bin/restic-backup.sh &&
+      crond -f -l 8
+      "
+
+volumes:
+  # Mapping a volúmenes EXISTENTES creados por EasyPanel para NocoDB y n8n.
+  # Nombres reales se obtienen con: docker volume ls
+  nocodb_data:
+    external: true
+    name: ${NOCODB_VOLUME_NAME}  # ej: easypanel_nocodb_data
+  n8n_data:
+    external: true
+    name: ${N8N_VOLUME_NAME}     # ej: easypanel_n8n_data

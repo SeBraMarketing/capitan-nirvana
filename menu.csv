@@ -1,0 +1,61 @@
+name,category,description,base_price_cop,variants_json,options_json,flavors,serves_people,available,prep_minutes,tags
+Jugo en Agua,Bebidas,Jugo natural en agua. Sabores de acuerdo a la temporada,7000,,,,1,true,3,
+Jugo en Leche,Bebidas,Jugo natural en leche. Sabores de acuerdo a la temporada,8500,,,,1,true,3,
+Limonada Natural,Bebidas,Limonada natural fresca,7000,,,,1,true,3,
+Limonada de Sabores,Bebidas,Limonada con sabores especiales,10500,,,"Cerezada,Chicle,Coco",1,true,4,
+Botella con Agua,Bebidas,Agua mineral en botella,4000,,,,1,true,1,
+Agua con Gas,Bebidas,Agua mineral con gas,4000,,,,1,true,1,
+Gaseosa Personal,Bebidas,Gaseosa personal a elección,4000,,,,1,true,1,
+Jugo Hit Personal,Bebidas,Jugo Hit en presentación personal,4000,,,,1,true,1,
+H2OH! Agua Saborizada,Bebidas,Agua saborizada H2OH!,4000,,,,1,true,1,
+Soda,Bebidas,Soda en lata,4000,,,,1,true,1,
+Ginger,Bebidas,Ginger Ale,4500,,,,1,true,1,
+Speed 269ml,Bebidas,Energizante en lata 269ml,3900,,,,1,true,1,energizante
+Red Bull 250ml,Bebidas,Energizante Red Bull 250ml,8900,,,,1,true,1,energizante
+Cerveza Club Colombia,Bebidas,Cerveza Club Colombia,4900,,,,1,true,1,alcohol
+Cerveza Poker,Bebidas,Cerveza Poker,4500,,,,1,true,1,alcohol
+Soda de Frutos Rojos,Sodas Especiales,"Vaso 16oz: fresas, arándanos, cerezas, zumo de limón, hierbabuena, soda, hielo y perlas explosivas (bubols)",19900,,,,1,true,5,nuevo
+Soda de Frutos Amarillos,Sodas Especiales,"Vaso 16oz: lulo, mango, piña, zumo de limón, hierbabuena, soda, hielo y perlas explosivas (bubols)",19900,,,,1,true,5,nuevo
+Tostón Amigos,Tostones,"Tostón para cuatro personas acompañado de maicitos, champiñones, trocitos de salchicha, jalapeños, pico de gallo y salsa de ajo",81500,,,,4,true,20,compartir
+Tostón Clásico,Tostones,"Patacón cubierto con mezcla de carne de pollo y res desmechada, queso fundido y salsas de la casa, acompañado con papa a la francesa",25500,,,,1,true,15,
+Tostón con Champiñones,Tostones,"Patacón cubierto con mezcla de carne de pollo y res desmechada, queso fundido, champiñones y salsas de la casa, acompañado con papa a la francesa",28500,,,,1,true,15,
+Tostón con Maicitos,Tostones,"Patacón cubierto con mezcla de carne de pollo y res desmechada, queso fundido, maicitos y salsas de la casa, acompañado con papa a la francesa",27500,,,,1,true,15,
+Tostón Beef,Tostones,"Con salchicha americana. Patacón cubierto con mezcla de carne de pollo y res desmechada, queso fundido, salchicha americana y salsas de la casa, acompañado con papa a la francesa",28500,,,,1,true,15,
+Tostón con Jalapeños,Tostones,"Patacón cubierto con mezcla de carne de pollo y res desmechada, queso fundido, jalapeños y salsas de la casa, acompañado con papa a la francesa",27500,,,,1,true,15,picante
+Tostón Vegano o Vegetariano,Tostones,"Patacón cubierto con vegetales, queso fundido (opcional), lechuga y salsas de la casa, acompañado con papa a la francesa",25500,,,,1,true,15,vegetariano
+Tostón con Costilla,Tostones,"Patacón cubierto con mezcla de carne de pollo y res desmechada, queso fundido, costilla y salsas de la casa, acompañado con papa a la francesa",29500,,,,1,true,18,
+Chicken Burger,Hamburguesas,"Pechuga de pollo apanada, pan artesanal, queso doble crema, tomate, lechuga, cebolla encurtida, salsas de la casa y papa a la francesa",27900,,,,1,true,12,nuevo
+Kiss Me Burger,Hamburguesas,"200gr de carne, pan artesanal, doble tocineta, queso doble crema, cebolla encurtida, salsa Kiss Me (semi-dulce) y papas a la francesa",28900,,,,1,true,12,nuevo
+Hamburguesa Dulce,Hamburguesas,"200gr de carne, pan artesanal, tocineta, jamón, queso cheddar, lechuga, cebolla dulce y papa a la francesa",26900,,,,1,true,12,
+Stones Burger,Hamburguesas,"200gr de carne, pan artesanal, fajitas de cerdo, champiñones, tocineta, cebolla salteada, lechuga, queso, jamón, salsa Stones y papas a la francesa",29900,,,,1,true,13,rolling-stones
+Hamburguesa Big Gun,Hamburguesas,"Pan artesanal, cebolla caramelizada, lechuga, tomate, jamón. Salsa Big Gun (tocineta, queso y pollo) y papas francesa. Sencilla 200gr / Doble 400gr",26900,"[{""name"":""Sencilla 200gr"",""price"":26900},{""name"":""Doble 400gr"",""price"":32900}]",,,1,true,13,
+Hamburguesa Sencilla,Hamburguesas,"200gr de carne, pan artesanal, cebolla caramelizada, tomate, lechuga, salsas, jamón, queso doble crema y papas a la francesa",25900,,,,1,true,12,
+Hamburguesa del Capitán,Hamburguesas,"400gr de carne, pan artesanal, jamón, queso, tocineta, tomate, lechuga, cebolla caramelizada, salsas de la casa y papas a la francesa",31900,,,,1,true,15,bestseller
+Hamburguesa Texana,Hamburguesas,"200gr de carne, pan artesanal, jalapeños, jamón, queso, tocineta, tomate, lechuga, cebolla salteada, salsa chipotle, salsas y papas a la francesa",26900,,,,1,true,13,picante
+Papitas Molotov,Mexican Food,"Cascos de papa amarilla frita cubierta con guacamole, acompañadas con carne de res desmechada, pollo desmechado y pico de gallo",28900,,,,1,true,12,
+Nachos Mexicanos,Mexican Food,"Mezcla de carne molida con frijol refrito, cubierto con queso fundido, maicitos, tomate picado y totopos, acompañados con salsa de ajo, guacamole y pico de gallo",38500,,,,1,true,12,
+Espaguetis a la Boloñesa,Pastas,"Espaguetis con pasta de tomate, carne molida, queso parmesano, acompañados de tostadas de ajo",28900,,,,1,true,15,
+Pasta Carbonara,Pastas,"Espaguetis con tocineta, jamón, crema de leche, queso parmesano, acompañados con tostadas de ajo",28900,,,,1,true,15,
+Espaguetis con Pollo,Pastas,"Espaguetis con pollo, champiñones, queso parmesano, acompañados con tostadas de ajo",28900,,,,1,true,15,
+Pasta Vegetariana,Pastas,"Espaguetis con vegetales de temporada salteados y queso parmesano, acompañados con tostadas de ajo",28900,,,,1,true,15,"vegetariano,nuevo"
+Sandwich Stones,Sandwich,"Pan artesanal, fajitas de cerdo en salsa Stones, champiñones, tocineta, queso y lechuga. Acompañado con papas a la francesa",25900,,,,1,true,10,rolling-stones
+Sandwich Hawaiano,Sandwich,"Pan artesanal, pollo desmechado, piña, jamón, queso y lechuga. Acompañado con papas a la francesa",25900,,,,1,true,10,
+Sandwich Big Gun,Sandwich,"Pan artesanal, pollo en salsa Big Gun, jamón y lechuga. Acompañado con papas a la francesa",25900,,,,1,true,10,
+Sandwich Vegetariano,Sandwich,"Pan artesanal, vegetales salteados, cebolla, queso y lechuga. Acompañado con papas a la francesa",25900,,,,1,true,10,vegetariano
+Sandwich Ropa Vieja,Sandwich,"Pan artesanal, carne de res desmechada, cebolla, jamón, queso y lechuga. Acompañado con papas a la francesa",25900,,,,1,true,12,
+Zeppelin Chips,Comida Rápida,"Papitas criollas fritas con chicharrones de cerdo, guacamole, pico de gallo, maicitos y cebolla morada encurtida",28900,,,,1,true,12,nuevo
+Crispetas de Pollo,Comida Rápida,"Trocitos de pechuga de pollo broaster acompañadas con papas a la francesa, salsa rosada y miel mostaza. Pequeña x6 o Grande x10",24500,"[{""name"":""Pequeña x6"",""price"":24500},{""name"":""Grande x10"",""price"":28500}]",,,1,true,12,bestseller
+Alitas Broaster o BBQ,Comida Rápida,"Alitas broaster o BBQ acompañadas con papas a la francesa. Sencillas o Dobles",29500,"[{""name"":""Sencillas"",""price"":29500},{""name"":""Dobles"",""price"":42500}]",,,1,true,15,
+Alitas Red Hot,Comida Rápida,"Alitas en salsa búfalo con papas a la francesa. Sencillas o Dobles",31900,"[{""name"":""Sencillas"",""price"":31900},{""name"":""Dobles"",""price"":44500}]",,,1,true,15,picante
+Salchipapa Big Gun,Comida Rápida,"Papa a la francesa con salchicha americana, cubierta con salsa Big Gun (tocineta, queso y pollo)",27500,,,,1,true,12,
+Papitas Stones,Comida Rápida,"Papa a la francesa con fajitas de lomo de cerdo, tocineta, champiñones bañadas en salsa Stones y salsa de ajo",28900,,,,1,true,13,rolling-stones
+Salchipapa Americana,Comida Rápida,"Salchipapa con salchicha americana. Sencilla o Doble",17900,"[{""name"":""Sencilla"",""price"":17900},{""name"":""Doble"",""price"":22500}]",,,1,true,10,
+Crepe de Pollo,Comida Rápida,"Tortilla rellena de pollo desmechado, queso fundido, jamón, tocineta, champiñones, salsas de la casa, acompañado con papas a la francesa",26900,,,,1,true,13,
+Crepe Stones,Comida Rápida,"Tortilla rellena de fajitas de cerdo, salsa Stones, champiñones, tocineta, queso y salsa de ajo, acompañado con papas a la francesa",26900,,,,1,true,13,rolling-stones
+Picada del Capitán,Picadas,"Carne de res, cerdo, pollo, chorizo, costilla ahumada, papa a la francesa, papa criolla, crispetas, arepas, maduro, yuca, tomate, limón, ají y guacamole",98900,,,,4,true,25,"compartir,bestseller"
+Picada 2 Personas,Picadas,"Carne de res, cerdo, pollo, chorizo, costilla ahumada, papa a la francesa, papa criolla, crispetas, arepas, maduro, yuca, tomate, limón, ají y guacamole",52500,,,,2,true,22,compartir
+Picada Personal,Picadas,"Carne de res, cerdo, pollo, chorizo, costilla ahumada, papa a la francesa, papa criolla, crispetas, arepa, maduro, yuca, tomate, limón, ají y guacamole",35000,,,,1,true,18,
+Black Dog,Picadas,"Pan con salchicha big americana, cebolla salteada, queso, tocineta, salsas: tomate, mostaza y ajo, más papa a la francesa",18900,,,,1,true,10,
+Pincho de Pollo,Picadas,"Brocheta de pollo acompañado con papa a la francesa, maduro, arepa y guacamole",24900,,,,1,true,15,
+Pincho Mixto,Picadas,"Brocheta de res, cerdo y pollo, acompañado con papa a la francesa, maduro, arepa y guacamole",23900,,,,1,true,18,
+Cajita Rockera,Cajita Rockera,"Menú infantil. Incluye jugo Hit, vaso de helado, papitas a la francesa y un botón rockero de regalo. El cliente elige el plato principal",29500,,"[{""name"":""Hamburguesa""},{""name"":""Crispetas de Pollo""},{""name"":""Perro Caliente""},{""name"":""Salchipapas""}]",,1,true,12,infantil

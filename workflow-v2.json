@@ -1,0 +1,457 @@
+{
+  "nodes": [
+    {
+      "id": "0eaef900-88a3-4967-bd3b-6661dc789345",
+      "name": "WhatsApp Trigger",
+      "type": "n8n-nodes-base.whatsAppTrigger",
+      "typeVersion": 1,
+      "position": [-1440, -100],
+      "webhookId": "cd7e2dd4-a27c-44bb-8d41-ad1c551c91fe",
+      "parameters": {
+        "updates": ["messages"],
+        "options": {}
+      },
+      "credentials": {
+        "whatsAppTriggerApi": {
+          "id": "TM2H6pbVZa5VI4zi",
+          "name": "WhatsApp OAuth CN"
+        }
+      }
+    },
+    {
+      "id": "chat-trig-001",
+      "name": "Chat Test (n8n)",
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [-1440, 200],
+      "webhookId": "cn-chat-test-2026",
+      "parameters": {
+        "options": {}
+      }
+    },
+    {
+      "id": "norm-wa-001",
+      "name": "Normalizer WA",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [-1200, -100],
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {"id": "n1", "name": "phone", "value": "={{ $json.contacts[0].wa_id }}", "type": "string"},
+            {"id": "n2", "name": "name", "value": "={{ $json.contacts[0].profile.name }}", "type": "string"},
+            {"id": "n3", "name": "text", "value": "={{ $json.messages[0].type === 'text' ? $json.messages[0].text.body : '' }}", "type": "string"},
+            {"id": "n4", "name": "message_id", "value": "={{ $json.messages[0].id }}", "type": "string"},
+            {"id": "n5", "name": "message_type", "value": "={{ $json.messages[0].type }}", "type": "string"},
+            {"id": "n6", "name": "phone_number_id", "value": "={{ $json.metadata.phone_number_id }}", "type": "string"},
+            {"id": "n7", "name": "source", "value": "whatsapp", "type": "string"},
+            {"id": "n8", "name": "timestamp_iso", "value": "={{ $now.setZone('America/Bogota').toISO() }}", "type": "string"},
+            {"id": "n9", "name": "media_id", "value": "={{ $json.messages[0].type === 'image' ? $json.messages[0].image.id : ($json.messages[0].type === 'audio' ? $json.messages[0].audio.id : '') }}", "type": "string"}
+          ]
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "edit-chat-001",
+      "name": "Edit Fields Chat",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [-1200, 200],
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {"id": "c1", "name": "phone", "value": "={{ $json.sessionId }}", "type": "string"},
+            {"id": "c2", "name": "name", "value": "Cliente Web", "type": "string"},
+            {"id": "c3", "name": "text", "value": "={{ $json.chatInput }}", "type": "string"},
+            {"id": "c4", "name": "message_id", "value": "={{ $json.sessionId }}-{{ $now.toMillis() }}", "type": "string"},
+            {"id": "c5", "name": "message_type", "value": "text", "type": "string"},
+            {"id": "c6", "name": "phone_number_id", "value": "", "type": "string"},
+            {"id": "c7", "name": "source", "value": "chat", "type": "string"},
+            {"id": "c8", "name": "timestamp_iso", "value": "={{ $now.setZone('America/Bogota').toISO() }}", "type": "string"},
+            {"id": "c9", "name": "media_id", "value": "", "type": "string"}
+          ]
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "schedule-001",
+      "name": "Schedule Check",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [-960, 50],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Calcula si el local está abierto en zona horaria America/Bogota\nconst now = new Date();\nconst bogota = new Date(now.getTime() - 5 * 60 * 60 * 1000);\nconst day = bogota.getUTCDay(); // 0=Dom, 1=Lun, 2=Mar, 3=Mie, 4=Jue, 5=Vie, 6=Sab\nconst minutesNow = bogota.getUTCHours() * 60 + bogota.getUTCMinutes();\nconst OPENS = 16 * 60;            // 4:00 pm\nconst CLOSE_WEEK = 21 * 60 + 30;  // 9:30 pm (Mar-Jue)\nconst CLOSE_WEEKEND = 22 * 60 + 30; // 10:30 pm (Vie-Dom)\n\nlet is_open = false;\nlet close_str = '';\nlet next_open = '';\n\nif (day === 1) {\n  is_open = false;\n  close_str = 'Lunes cerrado';\n  next_open = 'martes 4:00pm';\n} else if (day >= 2 && day <= 4) {\n  is_open = minutesNow >= OPENS && minutesNow < CLOSE_WEEK;\n  close_str = '9:30pm';\n  next_open = minutesNow < OPENS ? 'hoy 4:00pm' : 'mañana 4:00pm';\n} else {\n  is_open = minutesNow >= OPENS && minutesNow < CLOSE_WEEKEND;\n  close_str = '10:30pm';\n  next_open = minutesNow < OPENS ? 'hoy 4:00pm' : (day === 0 ? 'martes 4:00pm (lunes cerrado)' : 'mañana 4:00pm');\n}\n\nreturn {\n  ...$json,\n  is_open: is_open,\n  close_str: close_str,\n  next_open: next_open,\n  bogota_iso: bogota.toISOString(),\n  day_of_week: day,\n  minutes_now: minutesNow\n};"
+      }
+    },
+    {
+      "id": "if-open-001",
+      "name": "¿Abierto?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [-720, 50],
+      "parameters": {
+        "conditions": {
+          "conditions": [
+            {"id": "o1", "leftValue": "={{ $json.is_open }}", "rightValue": true, "operator": {"type": "boolean", "operation": "true", "singleValue": true}}
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "closed-msg-001",
+      "name": "Mensaje Cerrado",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [-480, 250],
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {"id": "cl1", "name": "reply_text", "value": "🎸 Por ahora estamos cerrados.\n\n*Horario domicilios:*\n• Lun: cerrado\n• Mar-Jue: 4pm a 9:30pm\n• Vie-Dom: 4pm a 10:30pm\n\nTe esperamos {{ $json.next_open }}. 🤘", "type": "string"}
+          ]
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "switch-type-001",
+      "name": "Tipo de Mensaje",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [-480, 50],
+      "parameters": {
+        "mode": "rules",
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "conditions": [
+                  {"id": "t1", "leftValue": "={{ $json.message_type }}", "rightValue": "text", "operator": {"type": "string", "operation": "equals"}}
+                ],
+                "combinator": "and"
+              },
+              "outputKey": "text"
+            },
+            {
+              "conditions": {
+                "conditions": [
+                  {"id": "t2", "leftValue": "={{ $json.message_type }}", "rightValue": "image", "operator": {"type": "string", "operation": "equals"}}
+                ],
+                "combinator": "and"
+              },
+              "outputKey": "image"
+            }
+          ]
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "menu-001",
+      "name": "Get Menu",
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [-240, 0],
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "version": 3,
+        "workspaceId": "w7108gf2",
+        "projectId": "pgz0206fm6lyth0",
+        "table": "",
+        "returnAll": true,
+        "filters": {
+          "filters": [
+            {"fieldName": "available", "operation": "eq", "value": "1"}
+          ]
+        },
+        "options": {}
+      },
+      "credentials": {
+        "nocoDbApiToken": {"id": "j55XFEY7IBeCsj94", "name": "NocoDB Token CN"}
+      },
+      "notes": "⚠️ Selecciona tabla 'menu' en el dropdown."
+    },
+    {
+      "id": "compactar-menu-001",
+      "name": "Compactar Menu",
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [0, 0],
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "destinationFieldName": "menu_items",
+        "options": {}
+      }
+    },
+    {
+      "id": "merge-context-001",
+      "name": "Merge Context",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [240, 0],
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineAll",
+        "options": {}
+      }
+    },
+    {
+      "id": "agent-001",
+      "name": "Capi (AI Agent)",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [480, 0],
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Tipo de Mensaje').item.json.text }}",
+        "options": {
+          "systemMessage": "Eres \"Capi\", el barman virtual de **Capitán Nirvana** — bar restaurante de concepto rock en Pasto, Nariño (Colombia). Tomas pedidos de domicilio.\n\n# CONTEXTO\n- Local: C.C. Galerías Súper Éxito, Local 215\n- Tel: 7238612 / 3004647851\n- Pagos: Nequi, Daviplata, Bancolombia, Efectivo contra entrega\n- Moneda: pesos colombianos (COP)\n- Slogan: \"Aliméntate con Rock and Roll\"\n- Horario: Mar-Jue 4pm-9:30pm | Vie-Dom 4pm-10:30pm | Lun cerrado\n\n# CLIENTE ACTUAL\n- Nombre: {{ $('Tipo de Mensaje').item.json.name }}\n- Teléfono: {{ $('Tipo de Mensaje').item.json.phone }}\n- Hora actual Pasto: {{ $('Tipo de Mensaje').item.json.bogota_iso }}\n- Cierre hoy: {{ $('Tipo de Mensaje').item.json.close_str }}\n\n# PERSONALIDAD\n- Castellano colombiano. Cercano, irreverente pero respetuoso. Tutea.\n- Guiños sutiles al rock cuando encajen (no abuses).\n- Emojis con moderación (1-2 por mensaje, máximo).\n\n# FORMATO DE MENSAJES\n- Cortos, 1-4 frases.\n- Doble salto de línea entre saludo / cuerpo / pregunta.\n- NUNCA mandes un párrafo denso.\n\n# FLUJO DE PEDIDO\n\n**Paso 1 — Saludo**\nSi solo saluda, salúdalo cálidamente y pregunta en qué le ayudas. Una sola frase.\n\n**Paso 2 — Toma de pedido**\nVerifica antes de añadir cada ítem:\n- Si tiene VARIANTES: pregunta cuál.\n- Si tiene SABORES: pregunta cuál (puede ser múltiple).\n- Si es Cajita Rockera: pregunta opción de plato principal.\n- Si tiene `adicionable=1`: ofrece adiciones de las categorías permitidas en `adiciones`.\n- Si tiene `modificable=1`: ofrece las opciones de `modificaciones` (gratuitas).\n- Cantidad: si no la dice, asume 1.\n- Notas especiales: anótalas.\n\n**Paso 3 — Mostrar carrito**\nDespués de cada ítem agregado:\n```\n🛒 Tu carrito\n• 1x Hamburguesa Big Gun (Doble) — $32.900\n• 2x Cerveza Club Colombia — $9.800\n+ Salsa Big Gun (adicional) — $5.000\n\nSubtotal: $47.700\n```\n\n**Paso 4 — Dirección y barrio**\nCuando cierre, pide dirección completa y barrio.\n\n**Paso 5 — Tarifa de domicilio**\nUsa esta tabla por barrio:\n- Galerías / Mariluz / Anganoy: $3.500 (15 min)\n- Pandiaco / Torobajo / Las Cuadras / La Carolina: $5.000 (20 min)\n- Centro / Plaza Nariño / Plaza Carnaval: $6.000 (25 min)\n- Av. Estudiantes / Las Lunas / Maridíaz / La Aurora / Niza: $6.500 (25 min)\n- Tamasagra / Chapal / Lorenzo de Aldana / Obrero: $8.000 (30 min)\n- Briceño / Versalles / Los Robles / Santa Bárbara: $8.000 (30 min)\n- La Colina / Capusigra: $9.000 (35 min)\n- Aranda / El Tejar / Villaflor: $10.000 (40 min)\n- Catambuco: $12.000 (45 min, confirmar)\n- Otra zona: marca \"por confirmar\" y avisa que coordinación confirmará tarifa.\n\n**Paso 6 — Resumen pre-pago**\n```\n📋 RESUMEN DE PEDIDO\n\n[items con qty + adiciones]\n\nSubtotal: $XX.XXX\nDomicilio (zona): $X.XXX\n━━━━━━━━━━━━━━━━━\nTOTAL: $XX.XXX\n\n📍 [dirección + barrio]\n👤 [nombre]\n⏱️ ETA: XX min\n```\nLuego: \"¿Cómo prefieres pagar? *Nequi / Daviplata / Bancolombia / Efectivo*\"\n\n**Paso 7 — Confirmación**\nAl confirmar pago, genera ID `CN{{YYYYMMDD}}{3 dígitos random}`.\n\n```\n🎸 ¡Pedido confirmado!\n\nID: CN20260509XXX\nETA: XX min\nMétodo: [método]\n\n[si Nequi/Daviplata/Bancolombia: \"Pásame la captura del pago para verificar.\"]\n[si Efectivo: \"Pago contra entrega. Ten lista la plata.\"]\n```\n\n# REGLAS DURAS\n- NUNCA inventes ítems fuera del menú.\n- NUNCA cambies precios.\n- Calcula bien las matemáticas.\n- Items con `vendible_solo=0` NO se ofrecen sueltos (Salsas, Proteínas, Acompañamientos, Bubbles solo como adición).\n- Si pide algo que no se hace a domicilio, dile y sugiere alternativa.\n- Si dice \"cancelar\" antes del paso 7: descarta carrito.\n- Si pregunta por reservas o local: \"Solo manejamos domicilios. Pronto activamos otras opciones.\"\n\n# MODO ACTUAL\n⚠️ ESTÁS EN MODO SIMULACIÓN. Los pedidos NO se guardan en base de datos en esta versión. Pero actúa como si fuera real.\n\n# EL MENÚ ACTUAL ({{ $('Compactar Menu').item.json.menu_items.length }} ítems disponibles)\n{{ $('Compactar Menu').item.json.menu_items.map(i => `[${i.json.category}] ${i.json.name} — $${i.json.base_price_cop}${i.json.tags ? ' | tags: ' + i.json.tags : ''}${i.json.flavors ? ' | sabores: ' + i.json.flavors : ''}${i.json.variants_json ? ' | VARIANTES: ' + i.json.variants_json : ''}${i.json.modificaciones ? ' | mods: ' + i.json.modificaciones : ''}${i.json.adiciones ? ' | acepta adiciones: ' + i.json.adiciones : ''}${i.json.vendible_solo === 0 ? ' | (solo como adición)' : ''}`).join('\\n') }}\n\nResponde en castellano colombiano, corto y al grano. 🎸"
+        }
+      }
+    },
+    {
+      "id": "lm-001",
+      "name": "OpenRouter Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [340, 240],
+      "parameters": {
+        "model": "openai/gpt-4o-mini",
+        "options": {
+          "temperature": 0.5,
+          "maxTokens": 800
+        }
+      },
+      "credentials": {
+        "openRouterApi": {"id": "6s6ZTktKG7nN6YXY", "name": "OpenRouter CN"}
+      }
+    },
+    {
+      "id": "mem-001",
+      "name": "Postgres Chat Memory",
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.3,
+      "position": [480, 240],
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Tipo de Mensaje').item.json.phone }}",
+        "tableName": "n8n_chat_memory_cn",
+        "contextWindowLength": 20
+      },
+      "credentials": {
+        "postgres": {"id": "NFdLmz9h4RS6Vhxc", "name": "Postgres CN"}
+      }
+    },
+    {
+      "id": "calc-tool-001",
+      "name": "Calculator",
+      "type": "@n8n/n8n-nodes-langchain.toolCalculator",
+      "typeVersion": 1,
+      "position": [620, 240],
+      "parameters": {}
+    },
+    {
+      "id": "switch-source-out-001",
+      "name": "Source Reply",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [780, 0],
+      "parameters": {
+        "mode": "rules",
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "conditions": [
+                  {"id": "sr1", "leftValue": "={{ $('Tipo de Mensaje').item.json.source }}", "rightValue": "whatsapp", "operator": {"type": "string", "operation": "equals"}}
+                ],
+                "combinator": "and"
+              },
+              "outputKey": "whatsapp"
+            },
+            {
+              "conditions": {
+                "conditions": [
+                  {"id": "sr2", "leftValue": "={{ $('Tipo de Mensaje').item.json.source }}", "rightValue": "chat", "operator": {"type": "string", "operation": "equals"}}
+                ],
+                "combinator": "and"
+              },
+              "outputKey": "chat"
+            }
+          ]
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "wa-send-001",
+      "name": "Enviar Texto WA",
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1.1,
+      "position": [1020, -100],
+      "webhookId": "89b2a271-cbd0-406b-acb2-58bb77dd4a51",
+      "parameters": {
+        "resource": "message",
+        "operation": "send",
+        "phoneNumberId": "={{ $('Tipo de Mensaje').item.json.phone_number_id }}",
+        "recipientPhoneNumber": "={{ $('Tipo de Mensaje').item.json.phone }}",
+        "textBody": "={{ $json.output }}",
+        "additionalFields": {}
+      },
+      "credentials": {
+        "whatsAppApi": {"id": "idJCWS2jxMZsLkpl", "name": "WhatsApp CN"}
+      }
+    },
+    {
+      "id": "switch-source-closed-001",
+      "name": "Source Cerrado",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [-240, 250],
+      "parameters": {
+        "mode": "rules",
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "conditions": [
+                  {"id": "sc1", "leftValue": "={{ $json.source }}", "rightValue": "whatsapp", "operator": {"type": "string", "operation": "equals"}}
+                ],
+                "combinator": "and"
+              },
+              "outputKey": "whatsapp"
+            },
+            {
+              "conditions": {
+                "conditions": [
+                  {"id": "sc2", "leftValue": "={{ $json.source }}", "rightValue": "chat", "operator": {"type": "string", "operation": "equals"}}
+                ],
+                "combinator": "and"
+              },
+              "outputKey": "chat"
+            }
+          ]
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "wa-send-closed-001",
+      "name": "Enviar WA Cerrado",
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1.1,
+      "position": [0, 200],
+      "webhookId": "89b2a271-cbd0-406b-acb2-58bb77dd4a52",
+      "parameters": {
+        "resource": "message",
+        "operation": "send",
+        "phoneNumberId": "={{ $('Schedule Check').item.json.phone_number_id }}",
+        "recipientPhoneNumber": "={{ $('Schedule Check').item.json.phone }}",
+        "textBody": "={{ $json.reply_text }}",
+        "additionalFields": {}
+      },
+      "credentials": {
+        "whatsAppApi": {"id": "idJCWS2jxMZsLkpl", "name": "WhatsApp CN"}
+      }
+    },
+    {
+      "id": "image-stub-001",
+      "name": "Imagen TODO",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [-240, 500],
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {"id": "i1", "name": "reply_text", "value": "🎸 Recibí tu imagen. La verificación automática de pagos llega en la próxima versión. Por ahora, espera respuesta de coordinación.", "type": "string"}
+          ]
+        },
+        "options": {}
+      },
+      "notes": "Placeholder para verificación de pagos con visión. Próxima fase."
+    },
+    {
+      "id": "note-arch-001",
+      "name": "Sticky Arquitectura",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [-1480, -340],
+      "parameters": {
+        "content": "## 🎸 Capitán Nirvana — Bot v2\n\n**Stage 1: Skeleton conversacional con horario y memoria persistente.**\n\n```\nTriggers (WA + Chat) → Normalizers → Schedule Check\n  ├─ Cerrado → Mensaje + Send WA / Chat return\n  └─ Abierto → Switch Tipo\n      ├─ Imagen → STUB (visión próximamente)\n      └─ Texto → Get Menu → Aggregate → Capi Agent → Switch Source\n          ├─ WA → Send WA\n          └─ Chat → return\n```\n\n**Pendiente próximas stages:**\n- Tools del agent: faq_lookup, zone_lookup, create_order, get_order_status, cancel_order\n- Visión GPT-4o para verificar capturas de pago\n- Save inbound/outbound a Conversations table\n- Sub-workflow Telegram callbacks (botones inline gestores)\n\n**Pendiente conectar/configurar:**\n- Get Menu → seleccionar tabla 'menu' del dropdown",
+        "height": 460,
+        "width": 540,
+        "color": 6
+      }
+    }
+  ],
+  "connections": {
+    "WhatsApp Trigger": {
+      "main": [[{"node": "Normalizer WA", "type": "main", "index": 0}]]
+    },
+    "Chat Test (n8n)": {
+      "main": [[{"node": "Edit Fields Chat", "type": "main", "index": 0}]]
+    },
+    "Normalizer WA": {
+      "main": [[{"node": "Schedule Check", "type": "main", "index": 0}]]
+    },
+    "Edit Fields Chat": {
+      "main": [[{"node": "Schedule Check", "type": "main", "index": 0}]]
+    },
+    "Schedule Check": {
+      "main": [[{"node": "¿Abierto?", "type": "main", "index": 0}]]
+    },
+    "¿Abierto?": {
+      "main": [
+        [{"node": "Tipo de Mensaje", "type": "main", "index": 0}],
+        [{"node": "Mensaje Cerrado", "type": "main", "index": 0}]
+      ]
+    },
+    "Mensaje Cerrado": {
+      "main": [[{"node": "Source Cerrado", "type": "main", "index": 0}]]
+    },
+    "Source Cerrado": {
+      "main": [
+        [{"node": "Enviar WA Cerrado", "type": "main", "index": 0}],
+        []
+      ]
+    },
+    "Tipo de Mensaje": {
+      "main": [
+        [{"node": "Get Menu", "type": "main", "index": 0}],
+        [{"node": "Imagen TODO", "type": "main", "index": 0}]
+      ]
+    },
+    "Get Menu": {
+      "main": [[{"node": "Compactar Menu", "type": "main", "index": 0}]]
+    },
+    "Compactar Menu": {
+      "main": [[{"node": "Capi (AI Agent)", "type": "main", "index": 0}]]
+    },
+    "OpenRouter Chat Model": {
+      "ai_languageModel": [[{"node": "Capi (AI Agent)", "type": "ai_languageModel", "index": 0}]]
+    },
+    "Postgres Chat Memory": {
+      "ai_memory": [[{"node": "Capi (AI Agent)", "type": "ai_memory", "index": 0}]]
+    },
+    "Calculator": {
+      "ai_tool": [[{"node": "Capi (AI Agent)", "type": "ai_tool", "index": 0}]]
+    },
+    "Capi (AI Agent)": {
+      "main": [[{"node": "Source Reply", "type": "main", "index": 0}]]
+    },
+    "Source Reply": {
+      "main": [
+        [{"node": "Enviar Texto WA", "type": "main", "index": 0}],
+        []
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

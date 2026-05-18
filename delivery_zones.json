@@ -1,0 +1,82 @@
+[
+  {
+    "zone_name": "Galerías y alrededores",
+    "keywords": "galerias, super exito, mariluz, anganoy",
+    "fee_cop": 3500,
+    "eta_minutes": 15,
+    "is_active": true,
+    "notes": "Zona del local. Domicilios más rápidos."
+  },
+  {
+    "zone_name": "Pandiaco - Torobajo",
+    "keywords": "pandiaco, torobajo, las cuadras, la carolina",
+    "fee_cop": 5000,
+    "eta_minutes": 20,
+    "is_active": true,
+    "notes": "Zona universitaria"
+  },
+  {
+    "zone_name": "Centro Histórico",
+    "keywords": "centro, plaza de narino, plaza del carnaval, calle 18, calle 19, calle 20, plaza nariño",
+    "fee_cop": 6000,
+    "eta_minutes": 25,
+    "is_active": true,
+    "notes": "Centro de Pasto"
+  },
+  {
+    "zone_name": "Av. de los Estudiantes",
+    "keywords": "estudiantes, las lunas, maridiaz, la aurora, niza",
+    "fee_cop": 6500,
+    "eta_minutes": 25,
+    "is_active": true,
+    "notes": ""
+  },
+  {
+    "zone_name": "Norte (Tamasagra - Chapal)",
+    "keywords": "tamasagra, chapal, lorenzo de aldana, obrero, san andresito",
+    "fee_cop": 8000,
+    "eta_minutes": 30,
+    "is_active": true,
+    "notes": "Zona norte"
+  },
+  {
+    "zone_name": "Sur (Briceño - Versalles)",
+    "keywords": "briceno, versalles, los robles, las acacias, santa barbara",
+    "fee_cop": 8000,
+    "eta_minutes": 30,
+    "is_active": true,
+    "notes": "Zona sur"
+  },
+  {
+    "zone_name": "La Colina - Capusigra",
+    "keywords": "la colina, capusigra, cerro capilla, capilla de cristo rey",
+    "fee_cop": 9000,
+    "eta_minutes": 35,
+    "is_active": true,
+    "notes": "Zona alta"
+  },
+  {
+    "zone_name": "Aranda - El Tejar",
+    "keywords": "aranda, el tejar, villaflor, caicedonia",
+    "fee_cop": 10000,
+    "eta_minutes": 40,
+    "is_active": true,
+    "notes": "Zona alejada"
+  },
+  {
+    "zone_name": "Catambuco",
+    "keywords": "catambuco",
+    "fee_cop": 12000,
+    "eta_minutes": 45,
+    "is_active": true,
+    "notes": "Corregimiento. Confirmar disponibilidad antes."
+  },
+  {
+    "zone_name": "Fuera de cobertura",
+    "keywords": "vereda, corregimiento lejano, fuera",
+    "fee_cop": 0,
+    "eta_minutes": 0,
+    "is_active": false,
+    "notes": "Zonas que no cubrimos. El bot responde 'lo sentimos, no llegamos a esa zona'."
+  }
+]
