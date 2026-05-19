@@ -13,6 +13,11 @@ Setup completo de Postgres en Supabase reemplazando NocoDB.
 | `generate_barrios_seed.py` | Script Python que lee `barrios_pasto_supabase.csv` y produce `barrios_seed.sql`. |
 | `barrios_seed.sql` | INSERTs de 396 barrios de Pasto. Generado, no editar a mano. |
 | `barrios_pasto_supabase.csv` | Fuente CSV original de barrios (slug, nombre, comuna, zona, coords). |
+| `security_fixes.sql` | Fixes de los 4 errores del Supabase Security Linter (vistas security_invoker + RLS en n8n_chat_memory_cn). |
+| `crm_schema.sql` | **Mini-CRM Fase 0**: multi-tenant (restaurants, restaurant_members, restaurant_id), `order_status_events`, RLS. Aditivo, no rompe el bot. |
+| `crm_functions.sql` | **Mini-CRM Fase 0**: `apply_order_action` (transición+mensaje, fuente única) + analítica (`crm_kpis`, `crm_top_dishes`, `crm_time_metrics`, `crm_heatmap`). |
+| `crm_catalog_rls.sql` | RLS de solo-lectura sobre `delivery_zones` para usuarios `authenticated` (el CRM muestra los nombres de zona). |
+| `reset_test_data.sql` | Utilitario de QA: `TRUNCATE` de pedidos/conversaciones/clientes para arrancar pruebas E2E limpias. Conserva menú, barrios, zonas, restaurantes. |
 
 ## Orden de ejecución
 
