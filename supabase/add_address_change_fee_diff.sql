@@ -203,6 +203,9 @@ BEGIN
             p_order_id,
             to_char(v_new_total, 'FM999G999'),
             CASE
+                WHEN o.payment_method = 'Efectivo' THEN format(
+                    E'\n💵 *Pagas $%s en efectivo al domiciliario al entregar.* 🤘',
+                    to_char(v_new_total, 'FM999G999'))
                 WHEN v_diff > 0 THEN format(
                     E'\n👉 Como ya pagaste $%s, *quedan $%s pendientes que pagas en efectivo al domiciliario al entregar.* 🤘',
                     to_char(v_old_total, 'FM999G999'),
@@ -234,6 +237,7 @@ BEGIN
             to_char(v_new_fee, 'FM999G999'),  to_char(v_old_fee, 'FM999G999'),
             to_char(v_new_total, 'FM999G999'), to_char(v_old_total, 'FM999G999'),
             CASE
+                WHEN o.payment_method = 'Efectivo' THEN format(E'\n💵 *Cobrar $%s en efectivo al entregar (pago contraentrega)*', to_char(v_new_total, 'FM999G999'))
                 WHEN v_diff > 0 THEN format(E'\n⚠️ *Cobrar $%s en efectivo al entregar*', to_char(v_diff, 'FM999G999'))
                 WHEN v_diff < 0 THEN format(E'\n⚠️ *Devolver $%s en efectivo al entregar*', to_char(abs(v_diff), 'FM999G999'))
                 ELSE ''
