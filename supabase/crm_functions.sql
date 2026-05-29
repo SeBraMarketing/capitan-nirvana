@@ -180,7 +180,7 @@ BEGIN
         'orders_total',      count(*),
         'delivered',         count(*) FILTER (WHERE order_status = 'delivered'),
         'cancelled',         count(*) FILTER (WHERE order_status = 'cancelled'),
-        'pending_payment',   count(*) FILTER (WHERE payment_status = 'pending'),
+        'pending_payment',   count(*) FILTER (WHERE payment_status = 'pending' AND order_status <> 'cancelled'),
         'revenue_cop',       COALESCE(sum(total_cop) FILTER (WHERE order_status = 'delivered'), 0),
         'aov_cop',           COALESCE(round(avg(total_cop) FILTER (WHERE order_status = 'delivered')), 0),
         'cancel_rate',       round(
