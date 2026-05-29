@@ -17,6 +17,11 @@ CREATE TABLE IF NOT EXISTS public.bot_lunch_menu_dispatch (
     PRIMARY KEY (phone, date_sent)
 );
 
+-- Tabla interna: solo la RPC SECURITY DEFINER escribe acá. Sin políticas,
+-- queda bloqueada para anon/authenticated; service_role y la RPC siguen
+-- pasando porque SECURITY DEFINER bypassa RLS.
+ALTER TABLE public.bot_lunch_menu_dispatch ENABLE ROW LEVEL SECURITY;
+
 CREATE OR REPLACE FUNCTION public.bot_lunch_menu_try_dispatch(p_phone text)
 RETURNS boolean
 LANGUAGE sql
