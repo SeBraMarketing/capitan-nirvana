@@ -1,0 +1,10 @@
+-- add_delete_customer_address.sql
+-- ⚠️ NO CORRER. La RPC delete_customer_address(p_phone, p_address_id) YA EXISTE
+--    y es correcta — definida en functions.sql (~linea 195). Devuelve BOOLEAN.
+--    Logica real: busca customer_id en 'customers' por phone, borra de
+--    customer_addresses donde id = p_address_id AND customer_id = ese. RETURNS true/false.
+--
+-- El nodo n8n 'Eliminar Direccion' la llama tal cual (p_phone = celular sin +, p_address_id = direccion_elegida_id).
+-- El nodo 'Parse Eliminar' normaliza el boolean de respuesta para 'WA Resultado Eliminar'.
+--
+-- Este archivo se deja como nota; no hace falta ninguna migracion nueva para ELIMINAR_DIRECCION.

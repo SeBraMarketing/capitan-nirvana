@@ -1,0 +1,47 @@
+-- ═══════════════════════════════════════════════════════════════════
+-- 2026-05-29 — HOTFIX: sobrecarga ambigua de apply_order_action (PGRST203)
+--
+-- SÍNTOMA: el CRM dejó de funcionar — "Verificar" (y toda acción: salió,
+-- entregado, cancelar, recordar) no mueve de etapa ni envía mensaje al
+-- cliente. El bridge n8n (workflow ioyYmHwAM7KF1x3w → nodo "Apply Action")
+-- recibe del RPC:
+--   PGRST203 "Could not choose the best candidate function between:
+--     apply_order_action(text,text,text,text)            ← 4 args (obsoleta)
+--     apply_order_action(text,text,text,text,text,text)" ← 6 args (canónica)
+--   → HTTP 300 → la ejecución falla en ~200ms.
+--
+-- CAUSA: en la BD conviven DOS sobrecargas. La de 6 args tiene
+-- p_new_address y p_reason con DEFAULT, así que una llamada de 4 args
+-- (la que hace el bridge: p_order_id, p_action, p_actor, p_source) encaja
+-- en AMBAS → PostgREST no puede elegir. La de 4 args la creó de nuevo
+-- crm_functions.sql al re-correrse (25-may), después de que
+-- add_incident_and_address_change.sql (20-may) ya la había eliminado.
+--
+-- FIX: eliminar la sobrecarga de 4 args. La de 6 args (canónica, definida
+-- en add_address_change_fee_diff.sql) atiende las llamadas de 4 args con
+-- p_new_address/p_reason = NULL. NO se pierde funcionalidad.
+--
+-- Idempotente. Ejecutar en Supabase SQL Editor (una corrida).
+-- ⚠️ NO volver a correr crm_functions.sql tal cual: su bloque de
+--    apply_order_action (4 args) fue neutralizado en el repo justamente
+--    para no resucitar este conflicto.
+-- ═══════════════════════════════════════════════════════════════════
+
+DROP FUNCTION IF EXISTS public.apply_order_action(text, text, text, text);
+
+-- ═══════════════════════════════════════════════════════════════════
+-- VERIFICACIÓN
+-- ═══════════════════════════════════════════════════════════════════
+-- 1. Debe quedar UNA sola firma (la de 6 args):
+--    SELECT p.oid::regprocedure AS firma
+--    FROM pg_proc p
+--    JOIN pg_namespace n ON n.oid = p.pronamespace
+--    WHERE n.nspname = 'public' AND p.proname = 'apply_order_action';
+--    -- Esperado: apply_order_action(text,text,text,text,text,text)
+--
+-- 2. Prueba E2E (un pedido en "Pago por verificar", payment_status='pending'):
+--    SELECT apply_order_action('CN20260529210', 'verify', 'prueba', 'crm');
+--    -- Esperado: { ok: true, ... reply_text: '✅ ¡Pago verificado! ...' }
+--    -- El pedido pasa a payment_status='verified', order_status='accepted'
+--    -- (columna "En cocina") y el bridge envía el WhatsApp al cliente.
+-- ═══════════════════════════════════════════════════════════════════

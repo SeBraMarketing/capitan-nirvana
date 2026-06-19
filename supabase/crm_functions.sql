@@ -137,6 +137,15 @@ END $$;
 GRANT EXECUTE ON FUNCTION public.apply_order_action(text,text,text,text)
     TO anon, authenticated, service_role;
 
+-- ⚠️ 2026-05-29: la firma de 4 args de arriba quedó OBSOLETA. La canónica es
+-- la de 6 args (…, p_new_address, p_reason) en add_incident_and_address_change.sql
+-- / add_address_change_fee_diff.sql. Tener AMBAS rompe el CRM con PGRST203
+-- (overload ambiguo: una llamada de 4 args encaja en las dos → HTTP 300, el
+-- bridge n8n falla y no mueve etapa ni envía mensaje). Por eso, tras crearla,
+-- la eliminamos aquí mismo: re-correr este archivo ya NO resucita el conflicto.
+-- (Hotfix independiente para la BD en vivo: fix_apply_order_action_overload.sql.)
+DROP FUNCTION IF EXISTS public.apply_order_action(text, text, text, text);
+
 
 -- ───────────────────────────────────────────────────────────────────
 -- Guard reusable: bloquea a un authenticated que pida otro tenant.
